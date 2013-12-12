@@ -37,56 +37,33 @@ define ['jinn/graphics', 'jinn/app', 'jinn/util'], (gfx, app, util) ->
 			isDead:
 				get: -> @elapsed >= @lifespan
 
-	class ns.Burst
-		constructor: (@opts) ->
-			@isFinished = true
-			@x = @opts.x
-			@y = @opts.y
-			@particle = @opts.particle
+	class Emitter
+		createParticle: (description) ->
+			@system.addParticle description
 
-		update: ->
-			amount = @opts.amount or 1
-
-			@opts.particle.x = @x
-			@opts.particle.y = @y
-			for i in [0...amount]
-				@system.addParticle @particle
-
-	class ns.Continuous
-		constructor: (@opts) ->
-			@x = @opts.x
-			@y = @opts.y
-			@particle = @opts.particle
+	class ns.ContinuousEmitter extends Emitter
+		constructor: ({particle}) ->
+			@constructor = util.thunkWrap particle
 
 		kill: ->
 			@isFinished = true
 
 		update: ->
-			amount = @opts.amount or 1
-			@opts.particle.x = @x
-			@opts.particle.y = @y
-			for i in [0...amount]
-				@system.addParticle @particle
+			@createParticle @constructor()
 
 	class ns.ParticleSystem
 		constructor: (@scene) ->
 			@emitters	= []
 			@particles	= []
 
-		addEmitter: (opts) ->
-			switch opts.type
-				when "burst" then emitter = new ns.Burst opts
-				when "continuous" then emitter = new ns.Continuous opts
-				else throw new Error "Uknown emitter type #{opts.type}"
+		add: (emitter) ->
+			return unless emitter?
+
 			emitter.system = this
 			@emitters.push emitter
-			return emitter
 
-		removeEmitter: (emitter) ->
-			@emitters.remove emitter
-
-		addParticle: (particle) ->
-			@particles.push new ns.Particle particle, app.canvas, @scene.camera
+		addParticle: (description) ->
+			@particles.push new ns.Particle description, app.canvas, @scene.camera
 
 		update: ->
 			emittersToRemove = []
