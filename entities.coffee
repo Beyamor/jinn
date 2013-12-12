@@ -46,6 +46,7 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			stop = false
 			while xSteps > 0
 				for type, handler of @collisionHandlers
+					handler = handler.x if handler.x?
 					collision = @collide type, @pos.x + xInc, @pos.y
 					if collision
 						stop = handler(collision)
@@ -61,9 +62,10 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			stop = false
 			while ySteps > 0
 				for type, handler of @collisionHandlers
+					handler = handler.y if handler.y?
 					collision = @collide type, @pos.x, @pos.y + yInc
 					if collision
-						stop = handler(collision)
+						stop = handler.call(this, collision)
 					break if stop
 
 				break if stop
