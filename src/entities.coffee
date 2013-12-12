@@ -84,7 +84,7 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			
 		render: ->
 			return unless @graphic and @scene and @scene.camera
-			@graphic.render app.canvas, @pos, @scene.camera
+			@graphic.render @renderTarget, @pos, @scene.camera
 
 		hasType: (type) ->
 			@type? and @type is type
@@ -109,6 +109,9 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			y:
 				get: -> @pos.y
 				set: (y) -> @pos.y = y
+
+			renderTarget:
+				get: -> app.canvas
 
 	class BaseEntityList
 		constructor: ->
