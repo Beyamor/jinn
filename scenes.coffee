@@ -62,6 +62,9 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 					@camera.update()
 
 			render: ->
+				for window in @windows when window.render?
+					window.render()
+
 				onscreenEntities = @entities.inBounds @camera
 				renderables = onscreenEntities.concat @particles.particles
 
