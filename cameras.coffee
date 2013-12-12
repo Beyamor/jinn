@@ -56,7 +56,7 @@ define ['jinn/util', 'jinn/app'], (util, app) ->
 			height:
 				get: -> @base.height
 
-	class ns.EntityFollower extends ns.CameraWrapper
+	class ns.EntityCamera extends ns.CameraWrapper
 		constructor: (@ent, base) ->
 			super base
 
