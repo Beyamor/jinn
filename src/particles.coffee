@@ -82,6 +82,9 @@ define ['jinn/graphics', 'jinn/app', 'jinn/util'], (gfx, app, util) ->
 			@emitters.push emitter
 			return emitter
 
+		removeEmitter: (emitter) ->
+			@emitters.remove emitter
+
 		addParticle: (particle) ->
 			@particles.push new ns.Particle particle, app.canvas, @scene.camera
 
