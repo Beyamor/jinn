@@ -13,6 +13,7 @@ define ['jinn/graphics', 'jinn/app', 'jinn/util'], (gfx, app, util) ->
 			@elapsed	= 0
 			@lifespan	= realizeArg args.lifespan
 			@layer		= args.layer or 0
+			@fade		= args.fade
 
 			if args.speed? and args.direction?
 				direction = realizeArg args.direction
@@ -29,6 +30,9 @@ define ['jinn/graphics', 'jinn/app', 'jinn/util'], (gfx, app, util) ->
 			if @vel
 				@pos.x += @vel.x * app.elapsed
 				@pos.y += @vel.y * app.elapsed
+
+			if @fade
+				@image.alpha = util.lerp 1, 0, (@elapsed / @lifespan)
 
 		render: ->
 			@image.render @target, @pos, @camera
