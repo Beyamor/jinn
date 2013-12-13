@@ -215,6 +215,9 @@ define ['jinn/app'], (app) ->
 
 		clamp: (v, min, max) ->
 			Math.max(Math.min(v, max), min)
+
+		lerp: (a, b, t) ->
+			a + (b - a) * t
 	}
 
 	return util
