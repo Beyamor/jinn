@@ -26,6 +26,8 @@ define ['jinn/app', 'jinn/canvas', 'underscore'],
 				@width		= @canvas.width
 				@height		= @canvas.height
 				@alpha		= null
+				@_mirrorH	= false
+				@_mirrorV	= false
 
 				@centerOrigin() if args? and args.centered?
 
@@ -52,6 +54,13 @@ define ['jinn/app', 'jinn/canvas', 'underscore'],
 				context.save()
 
 				context.translate @origin.x , @origin.y
+
+				if @_mirrorH or @_mirrorV
+					context.scale(
+						if @_mirrorH then -1 else 1,
+						if @_mirrorV then -1 else 1
+					)
+
 				if @rotation isnt 0
 					context.rotate @rotation
 
@@ -79,6 +88,19 @@ define ['jinn/app', 'jinn/canvas', 'underscore'],
 
 				if @alpha?
 					target.context.globalAlpha	= previousAlpha
+
+			@accessors
+				mirrorH:
+					set: (mirror) ->
+						if mirror isnt @_mirrorH
+							@_mirrorH = mirror
+							@dirty = true
+
+				mirrorV:
+					set: (mirror) ->
+						if mirror isnt @_mirrorV
+							@_mirrorV = mirror
+							@dirty = true
 
 		class ns.Image extends ns.StandardGraphic
 			constructor: (src, args) ->
