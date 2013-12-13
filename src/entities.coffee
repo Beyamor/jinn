@@ -3,11 +3,34 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 
 	CELL_WIDTH = CELL_HEIGHT = 200
 
+	class Velocity
+		constructor: (@x, @y) ->
+
+		@accessors
+			speed:
+				get: ->
+					Math.sqrt(@x*@x + @y*@y)
+
+				set: (speed) ->
+					direction = @direction
+					@x = Math.cos(direction) * speed
+					@y = Math.sin(direction) * speed
+
+			direction:
+				get: ->
+					Math.atan2(@y, @x)
+
+				set: (direction) ->
+					speed = @speed
+					@x = Math.cos(direction) * speed
+					@y = Math.sin(direction) * speed
+
+
 	class ns.Entity
 		constructor: (args) ->
 			@pos			= {x: args.x, y: args.y}
 			@graphic		= args.graphic
-			@vel			= {x: 0, y: 0}
+			@vel			= new Velocity 0, 0
 			@layer			= args.layer or 0
 			@width			= args.width or 0
 			@height			= args.height or args.width or 0
