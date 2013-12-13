@@ -27,7 +27,7 @@ define ['jinn/app'], (app) ->
 	class Timer
 		constructor: (args) ->
 			@period		= args.period
-			@callback	= args.callback
+			@onEnd		= args.onEnd or args.callback
 			@loops		= args.loops
 			@elapsed	= 0
 			@running	= args.start
@@ -45,11 +45,11 @@ define ['jinn/app'], (app) ->
 			if @loops
 				while @elapsed >= @period
 					@elapsed -= @period
-					@callback()
+					@onEnd()
 
 			else
 				if @elapsed >= @period
-					@callback()
+					@onEnd()
 
 	copy = (obj)->
 		if not obj? or typeof obj isnt 'object'
