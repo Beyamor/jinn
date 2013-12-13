@@ -1,6 +1,7 @@
 define ['jinn/canvas', 'jinn/input', 'jinn/debug',
-	'jquery', 'preload'],
-	(cnvs, input, debug, $, preload) ->
+	'jquery', 'preload', 'handlebars'],
+	(cnvs, input, debug,\
+	$, preload, handlerbars) ->
 
 		return {
 			loop: ->

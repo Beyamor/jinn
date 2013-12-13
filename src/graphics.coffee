@@ -1,5 +1,5 @@
 define ['jinn/app', 'jinn/canvas', 'underscore'],
-	(app, {Canvas}, underscore) ->
+	(app, {Canvas}, _) ->
 		ns = {}
 
 		class ns.Rect
