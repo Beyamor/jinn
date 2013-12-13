@@ -72,7 +72,7 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 					handler = handler.x if handler.x?
 					collision = @collide type, @pos.x + xInc, @pos.y
 					if collision
-						stop = handler(collision)
+						stop = handler.call(this, collision)
 					break if stop
 
 				break if stop
@@ -111,6 +111,10 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 
 		hasType: (type) ->
 			@type? and @type is type
+
+		removeFromScene: ->
+			if @scene?
+				@scene.remove this
 
 		@accessors
 			left:
