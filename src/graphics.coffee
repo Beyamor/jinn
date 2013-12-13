@@ -1,5 +1,6 @@
-define ['jinn/app', 'jinn/canvas', 'underscore'],
-	(app, {Canvas}, _) ->
+define ['jinn/app', 'jinn/canvas', 'underscore',
+	'jinn/util'],
+	(app, {Canvas}, _, util) ->
 		ns = {}
 
 		class ns.Rect
