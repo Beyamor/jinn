@@ -25,6 +25,7 @@ define ['jinn/app', 'jinn/canvas', 'underscore'],
 				@dirty		= true
 				@width		= @canvas.width
 				@height		= @canvas.height
+				@alpha		= null
 
 				@centerOrigin() if args? and args.centered?
 
@@ -70,7 +71,14 @@ define ['jinn/app', 'jinn/canvas', 'underscore'],
 				#	top: y
 				#	bottom: y + @height
 
+				if @alpha?
+					previousAlpha			= target.context.globalAlpha
+					target.context.globalAlpha	= @alpha
+
 				target.context.drawImage @canvas.el, x, y
+
+				if @alpha?
+					target.context.globalAlpha	= previousAlpha
 
 		class ns.Image extends ns.StandardGraphic
 			constructor: (src, args) ->
