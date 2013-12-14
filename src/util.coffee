@@ -11,68 +11,6 @@ define ['jinn/app'], (app) ->
 	Array::contains = (val) ->
 		this.indexOf(val) isnt -1
 
-	array2d = (width, height, constructor) ->
-		a = []
-		for i in [0...width]
-			a.push []
-			for j in [0...height]
-				a[i].push if constructor then constructor(i, j) else null
-		return a
-
-	array2d.each = (a, f) ->
-			for i in [0...a.length]
-				for j in [0...a[i].length]
-					f i, j, a[i][j]
-
-	class Timer
-		constructor: (args) ->
-			@period		= args.period
-			@onEnd		= args.onEnd or args.callback
-			@loops		= args.loops
-			@elapsed	= 0
-			@running	= args.start
-
-		restart: ->
-			@elapsed	= 0
-			@running	= true
-			return this
-
-		update: ->
-			return unless @running
-
-			@elapsed += app.elapsed
-			
-			if @loops
-				while @elapsed >= @period
-					@elapsed -= @period
-					@onEnd()
-
-			else
-				if @elapsed >= @period
-					@onEnd()
-
-	copy = (obj)->
-		if not obj? or typeof obj isnt 'object'
-			return obj
-
-		if obj instanceof Date
-			return new Date(obj.getTime())
-
-		if obj instanceof RegExp
-			flags = ''
-			flags += 'g' if obj.global?
-			flags += 'i' if obj.ignoreCase?
-			flags += 'm' if obj.multiline?
-			flags += 'y' if obj.sticky?
-			return new RegExp(obj.source, flags)
-
-		newInstance = new obj.constructor()
-
-		for key of obj
-			newInstance[key] = copy obj[key]
-
-		return newInstance
-
 	util = {
 		sign: (x) -> (x > 0) - (x < 0)
 
@@ -81,8 +19,6 @@ define ['jinn/app'], (app) ->
 				a.left > b.right or
 				a.bottom < b.top or
 				a.top > b.bottom)
-
-		array2d: array2d
 
 		directionFrom: (a, b) ->
 			Math.atan2 (b.y-a.y), (b.x-a.x)
@@ -121,8 +57,6 @@ define ['jinn/app'], (app) ->
 
 		thunkWrap: (x) ->
 			if util.isFunction(x) then x else -> x
-
-		copy: copy
 
 		bresenham: ({x: x1, y: y1}, {x: x2, y: y2}) ->
 			points = []
@@ -180,8 +114,6 @@ define ['jinn/app'], (app) ->
 
 			return isIn
 
-		Timer: Timer
-
 		DIRECTIONS: ["north", "east", "south", "west"]
 
 		oppositeDirection: (direction) ->
@@ -219,5 +151,67 @@ define ['jinn/app'], (app) ->
 		lerp: (a, b, t) ->
 			a + (b - a) * t
 	}
+
+	util.array2d = (width, height, constructor) ->
+		a = []
+		for i in [0...width]
+			a.push []
+			for j in [0...height]
+				a[i].push if constructor then constructor(i, j) else null
+		return a
+
+	util.array2d.each = (a, f) ->
+			for i in [0...a.length]
+				for j in [0...a[i].length]
+					f i, j, a[i][j]
+
+	class util.Timer
+		constructor: (args) ->
+			@period		= args.period
+			@onEnd		= args.onEnd or args.callback
+			@loops		= args.loops
+			@elapsed	= 0
+			@running	= args.start
+
+		restart: ->
+			@elapsed	= 0
+			@running	= true
+			return this
+
+		update: ->
+			return unless @running
+
+			@elapsed += app.elapsed
+			
+			if @loops
+				while @elapsed >= @period
+					@elapsed -= @period
+					@onEnd()
+
+			else
+				if @elapsed >= @period
+					@onEnd()
+
+	util.copy = (obj)->
+		if not obj? or typeof obj isnt 'object'
+			return obj
+
+		if obj instanceof Date
+			return new Date(obj.getTime())
+
+		if obj instanceof RegExp
+			flags = ''
+			flags += 'g' if obj.global?
+			flags += 'i' if obj.ignoreCase?
+			flags += 'm' if obj.multiline?
+			flags += 'y' if obj.sticky?
+			return new RegExp(obj.source, flags)
+
+		newInstance = new obj.constructor()
+
+		for key of obj
+			newInstance[key] = copy obj[key]
+
+		return newInstance
 
 	return util
