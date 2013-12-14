@@ -44,6 +44,8 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 
 			mixin.initialize.call(this) for mixin in @mixins when mixin.initialize?
 
+			@updateables = new util.UpdateList
+
 		center: ->
 			@offset.x = -@width * 0.5
 			@offset.y = -@height * 0.5
@@ -104,6 +106,7 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 					handler(collision) if collision
 
 			mixin.update.call(this) for mixin in @mixins when mixin.update?
+			@updateables.update()
 			
 		render: ->
 			return unless @graphic and @scene and @scene.camera
