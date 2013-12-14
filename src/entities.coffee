@@ -130,15 +130,19 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 		@accessors
 			left:
 				get: -> @pos.x + @offset.x
+				set: (left) -> @pos.x = left - @offset.x
 
 			right:
 				get: -> @left + @width - 0.0001 # uhhhh
+				set: (right) -> @left = right - @width
 
 			top:
 				get: -> @pos.y + @offset.y
+				set: (top) -> @pos.y = top - @offset.y
 
 			bottom:
 				get: -> @top + @height - 0.0001
+				set: (bottom) -> @top = bottom - @height
 
 			x:
 				get: -> @pos.x
