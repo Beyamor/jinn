@@ -78,6 +78,10 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 					break if stop
 
 				break if stop
+
+				if @shouldStopMovingHorizontally? and @shouldStopMovingHorizontally()
+					break
+
 				@pos.x += xInc
 				xSteps -= 1
 
@@ -94,6 +98,10 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 					break if stop
 
 				break if stop
+
+				if @shouldStopMovingVertically? and @shouldStopMovingVertically()
+					break
+
 				@pos.y += yInc
 				ySteps -= 1
 
