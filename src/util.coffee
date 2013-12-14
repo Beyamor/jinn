@@ -15,10 +15,16 @@ define ['jinn/app'], (app) ->
 		sign: (x) -> (x > 0) - (x < 0)
 
 		aabbsIntersect: (a, b) ->
-			not (a.right < b.left or
+			not (a.right <= b.left or
 				a.left > b.right or
-				a.bottom < b.top or
+				a.bottom <= b.top or
 				a.top > b.bottom)
+
+		pointInRect: (point, rect) ->
+			point.x >= rect.left and
+				point.x <= rect.right and
+				point.y >= rect.top and
+				point.y <= rect.bottom
 
 		directionFrom: (a, b) ->
 			Math.atan2 (b.y-a.y), (b.x-a.x)
