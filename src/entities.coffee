@@ -211,6 +211,15 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 
 			return es
 
+		nearPoint: (point) ->
+			x = Math.floor point.x / CELL_WIDTH
+			y = Math.floor point.y / CELL_HEIGHT
+
+			if @entityCells? and @entityCells[x]? and @entityCells[x][y]?
+				return @entityCells[x][y]
+			else
+				return []
+
 
 		first: (type) ->
 			(return e) for e in @list when e.hasType type
@@ -279,9 +288,17 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 		inBounds: (rect) ->
 			@statics.inBounds(rect).concat @dynamics.inBounds(rect)
 
+		nearPoint: (point) ->
+			@statics.nearPoint(point).concat @dynamics.nearPoint(point)
+
 		collide: (e1, type) ->
-			for e2 in @inBounds(e1) when e2 isnt e1 and e2.hasType type
+			for e2 in @inBounds(e1) when (e2 isnt e1) and e2.hasType type
 				return e2 if util.aabbsIntersect e1, e2
+			return null
+
+		collidePoint: (point, type) ->
+			for e in @nearPoint(point) when e.hasType type
+				return e if util.pointInRect point, e
 			return null
 
 		first: (type) ->
