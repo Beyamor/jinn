@@ -214,4 +214,16 @@ define ['jinn/app'], (app) ->
 
 		return newInstance
 
+	class util.UpdateList
+		constructor: (@updateables...) ->
+
+		add: (updateable) ->
+			@updateables.push updateable if updateable?
+
+		remove: (updateable) ->
+			@updateables.remove updateable if updateable?
+
+		update: ->
+			updateable.update() for updateable in @updateables
+
 	return util
