@@ -132,13 +132,13 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 				get: -> @pos.x + @offset.x
 
 			right:
-				get: -> @left + @width
+				get: -> @left + @width - 0.0001 # uhhhh
 
 			top:
 				get: -> @pos.y + @offset.y
 
 			bottom:
-				get: -> @top + @height
+				get: -> @top + @height - 0.0001
 
 			x:
 				get: -> @pos.x
