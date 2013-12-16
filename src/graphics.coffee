@@ -33,8 +33,8 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 				@centerOrigin() if args? and args.centered?
 
 			centerOrigin: ->
-				@origin.x = @img.width / 2
-				@origin.y = @img.height / 2
+				@origin.x = @width / 2
+				@origin.y = @height / 2
 				@diry = true
 				return this
 
@@ -114,4 +114,44 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 						
 			draw: (context) ->
 				context.drawImage @img, -@origin.x, -@origin.y
+
+		class ns.SpriteSheet extends ns.StandardGraphic
+			constructor: (src, args) ->
+				@img = app.assets.get src
+
+				super args
+
+				@animations	= args.animations
+				@frameWidth	= args.width
+				@frameHeight	= args.height
+				@framesPerRow	= Math.ceil(@img.width / @frameWidth)
+
+				@play args.play if args.play?
+
+			play: (animation) ->
+				throw new Error "Unknown animation #{animation}" unless @animations[animation]?
+
+				@currentAnimation	= animation
+				@currentFrame		= 0
+				@dirty			= true
+
+			draw: (context) ->
+				return unless @currentAnimation?
+
+				frame	= @animations[@currentAnimation][@currentFrame]
+				frameX	= frame % @framesPerRow
+				frameY	= Math.floor(frame / @framesPerRow)
+
+				context.drawImage(
+					@img,
+					frameX * @frameWidth,
+					frameY * @frameHeight,
+					@frameWidth,
+					@frameHeight,
+					-@origin.x,
+					-@origin.y,
+					@frameWidth,
+					@frameHeight)
+
+
 		return ns
