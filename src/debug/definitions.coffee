@@ -23,7 +23,6 @@ define ['jinn/app', 'jquery', 'jquery-ui'],
 					valueEl = $ "<input type=\"text\" value=\"#{value}\">"
 					valueEl.change ->
 						value = app.definitions[name].constructor valueEl.val()
-						console.log "defining #{name} as #{value}"
 						app.definitions[name] = value
 
 					definitionEl.append valueEl
@@ -37,10 +36,8 @@ define ['jinn/app', 'jquery', 'jquery-ui'],
 
 		ns.toggle = ->
 			if isHidden
-				console.log "showing"
 				ns.show()
 			else
-				console.log "hiding"
 				ns.hide()
 
 		return ns
