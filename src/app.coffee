@@ -4,6 +4,12 @@ define ['jinn/canvas', 'jinn/input', 'jinn/debug',
 	$, preload, handlerbars) ->
 
 		return {
+			definitions: {}
+
+			define: (definitions) ->
+				for k, v of definitions
+					@definitions[k] = v
+
 			loop: ->
 				newTime = new Date
 				@elapsed =  (newTime - @previousTime) * 0.001
