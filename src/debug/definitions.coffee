@@ -1,5 +1,5 @@
-define ['jinn/app', 'jquery'],
-	(app, $) ->
+define ['jinn/app', 'jquery', 'jquery-ui'],
+	(app, $, jqueryUI) ->
 		ns = {}
 
 		ID = "definitions-debug-tweaker"
@@ -10,12 +10,15 @@ define ['jinn/app', 'jquery'],
 			return unless isHidden
 			isHidden = false
 
-			el = $("<div id=#{ID}>")
+			el =
+				$("<div id=#{ID}>")
+					.draggable()
 
 			for name, value of app.definitions
 				do (name, value) ->
-					definitionEl = $ "<div class=\"definition\">"
-					definitionEl.text "#{name}: "
+					definitionEl =
+						$("<div class=\"definition\">")
+							.text("#{name}: ")
 
 					valueEl = $ "<input type=\"text\" value=\"#{value}\">"
 					valueEl.change ->
