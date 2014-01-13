@@ -4,8 +4,8 @@ define ['jquery'],
 			return unless @enabled
 			console.log args.join ', '
 
-		logType: (type, args...) ->
-			return unless @types and @types[type]
+		logFlag: (flag, args...) ->
+			return unless @flags and @flags[flag]
 			@log.apply this, args
 
 		config: (opts) ->
@@ -31,8 +31,8 @@ define ['jquery'],
 
 			$('.fps', @screen).text(Math.floor(1 / elapsedAvg))
 
-		isEnabled: (type) ->
-			return @enabled and @types[type]
+		isEnabled: (flag) ->
+			return @enabled and @flags[flag]
 
-		toggle: (type) ->
-			@types[type] = not @types[type]
+		toggle: (flag) ->
+			@flags[flag] = not @flags[flag]
