@@ -65,4 +65,15 @@ define ['jinn/util', 'jinn/app'], (util, app) ->
 			@x = @ent.x - app.width / 2
 			@y = @ent.y - app.height / 2
 
+	class ns.BoundedCamera extends ns.CameraWrapper
+		constructor: (@bounds, base) ->
+			super base
+
+		update: ->
+			super()
+			@base.x = @bounds.left if @base.left < @bounds.left
+			@base.y = @bounds.top if @base.top < @bounds.top
+			@base.x = @bounds.right - @width if @base.right > @bounds.right
+			@base.y = @bounds.bottom - @height if @base.bottom > @bounds.bottom
+
 	return ns
