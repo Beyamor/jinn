@@ -37,7 +37,7 @@ define ['jinn/graphics', 'jinn/app', 'jinn/util'], (gfx, app, util) ->
 		render: ->
 			@image.render @target, @pos, @camera
 
-		@accessors
+		@properties
 			isDead:
 				get: -> @elapsed >= @lifespan
 

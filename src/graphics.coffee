@@ -90,7 +90,7 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 				if @alpha?
 					target.context.globalAlpha	= previousAlpha
 
-			@accessors
+			@properties
 				mirrorH:
 					set: (mirror) ->
 						if mirror isnt @_mirrorH

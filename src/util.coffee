@@ -1,5 +1,5 @@
 define ['jinn/app'], (app) ->
-	Function::accessors = (definitions) ->
+	Function::properties = (definitions) ->
 		for prop, desc of definitions
 			Object.defineProperty this.prototype, prop, desc
 
@@ -55,6 +55,7 @@ define ['jinn/app'], (app) ->
 
 			angle: -> util.random.inRange 0, 2 * Math.PI
 			any: (coll) -> coll[Math.floor(Math.random() * coll.length)]
+			choose: (options...) -> util.random.any options
 			coinFlip: -> util.random.chance 50
 			chance: (probability) -> Math.random() * 100 < probability
 

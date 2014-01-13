@@ -6,7 +6,7 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 	class Velocity
 		constructor: (@x, @y) ->
 
-		@accessors
+		@properties
 			speed:
 				get: ->
 					Math.sqrt(@x*@x + @y*@y)
@@ -127,7 +127,7 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			if @scene?
 				@scene.remove this
 
-		@accessors
+		@properties
 			left:
 				get: -> @pos.x + @offset.x
 				set: (left) -> @pos.x = left - @offset.x

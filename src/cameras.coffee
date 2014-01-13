@@ -8,7 +8,7 @@ define ['jinn/util', 'jinn/app'], (util, app) ->
 		update: ->
 			# nothing
 
-		@accessors
+		@properties
 			x:
 				get: -> @pos.x
 				set: (x) -> @pos.x = x
@@ -41,7 +41,7 @@ define ['jinn/util', 'jinn/app'], (util, app) ->
 		update: ->
 			@base.update()
 
-		@accessors
+		@properties
 			x:
 				get: -> @base.x
 				set: (x) -> @base.x = x
