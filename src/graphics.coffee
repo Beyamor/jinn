@@ -3,21 +3,6 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 	(app, {Canvas}, _, util) ->
 		ns = {}
 
-		class ns.Rect
-			constructor: (width, height, color) ->
-				@canvas = new Canvas {width: width, height: height}
-				context = @canvas.context
-				context.beginPath()
-				context.rect 0, 0, width, height
-				context.fillStyle = color
-				context.fill()
-				context.closePath()
-
-			render: (target, point, camera) ->
-				x = point.x - camera.x
-				y = point.y - camera.y
-				target.context.drawImage @canvas.el, x, y
-
 		class ns.StandardGraphic
 			constructor: (args) ->
 				@canvas		= new Canvas width: args.width, height: args.height
@@ -102,6 +87,17 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 						if mirror isnt @_mirrorV
 							@_mirrorV = mirror
 							@dirty = true
+
+		class ns.Rect extends ns.StandardGraphic
+			constructor: (args) ->
+				@color = args.color
+
+				super args
+
+			draw: (context) ->
+				context.fillStyle = @color
+				context.fillRect -@origin.x, -@origin.y, @width, @height
+
 
 		class ns.Image extends ns.StandardGraphic
 			constructor: (src, args) ->
