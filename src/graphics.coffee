@@ -3,6 +3,12 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 	(app, {Canvas}, _, util) ->
 		ns = {}
 
+		class ns.GraphicsList
+			constructor: (@graphics...) ->
+
+			render: (target, point, camera) ->
+				graphic.render(target, point, camera) for graphic in @graphics
+
 		class ns.StandardGraphic
 			constructor: (args) ->
 				@canvas		= new Canvas width: args.width, height: args.height
@@ -14,6 +20,7 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 				@alpha		= null
 				@_mirrorH	= false
 				@_mirrorV	= false
+				@visible	= if args.visible? then args.visible else true
 
 				@centerOrigin() if args? and args.centered?
 
@@ -55,6 +62,8 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 				@dirty = false
 
 			render: (target, point, camera) ->
+				return unless @visible
+
 				@prerender() if @dirty
 				x = point.x - @origin.x - camera.x
 				y = point.y - @origin.y - camera.y
@@ -74,6 +83,12 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 
 				if @alpha?
 					target.context.globalAlpha	= previousAlpha
+
+			show: ->
+				@visible = true
+
+			hide: ->
+				@visible = false
 
 			@properties
 				mirrorH:
