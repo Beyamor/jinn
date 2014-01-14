@@ -26,6 +26,7 @@ define [],
 					@state = @nextState
 					
 					@state.begin() if @state.begin?
+					@nextState = null
 
 				@state.update()
 
