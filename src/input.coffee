@@ -57,6 +57,8 @@ define ->
 
 		mouseX: 0
 		mouseY: 0
+		prevMouseX: 0
+		prevMouseY: 0
 
 		isDown: (key, state) ->
 			state or= @currentState
@@ -114,8 +116,10 @@ define ->
 				@events.push [e.which, 'up']
 
 			.mousemove (e) =>
-				@mouseX = e.pageX - $el.parent().offset().left
-				@mouseY = e.pageY - $el.parent().offset().top
+				@prevMouseX	= @mouseX
+				@prevMouseY	= @mouseY
+				@mouseX		= e.pageX - $el.parent().offset().left
+				@mouseY		= e.pageY - $el.parent().offset().top
 
 			.mousedown (e) =>
 				@events.push [eventToMouseButton(e), 'down']
@@ -126,5 +130,8 @@ define ->
 			$el.attr 'oncontextmenu', 'return false;'
 
 	input.define vkDefinitions
+
+	Object.defineProperty input, "mouseMoved",
+		get: -> @mouseX isnt @prevMouseX or @mouseY isnt @prevMouseY
 
 	return input
