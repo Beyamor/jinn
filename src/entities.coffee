@@ -152,6 +152,12 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 				get: -> @pos.y
 				set: (y) -> @pos.y = y
 
+			centerX:
+				get: -> if @width? then (@left + @right) / 2 else @x
+
+			centerY:
+				get: -> if @height? then (@top + @bottom) / 2 else @y
+
 			renderTarget:
 				get: -> app.canvas
 
