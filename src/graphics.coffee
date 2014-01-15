@@ -17,7 +17,7 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 				@dirty		= true
 				@width		= @canvas.width
 				@height		= @canvas.height
-				@alpha		= null
+				@alpha		= args.alpha
 				@_mirrorH	= false
 				@_mirrorV	= false
 				@visible	= if args.visible? then args.visible else true
