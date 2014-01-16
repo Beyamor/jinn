@@ -157,6 +157,16 @@ define ['jinn/app'], (app) ->
 
 		lerp: (a, b, t) ->
 			a + (b - a) * t
+
+		isBetweenAngles: (theta, lower, upper) ->
+			lower += Math.PI * 2 if lower < 0
+			upper += Math.PI * 2 if upper < 0
+			theta += Math.PI * 2 if theta < 0
+
+			if lower < upper
+				return lower <= theta <= upper
+			else
+				return theta >= lower or theta <= upper
 	}
 
 	util.array2d = (width, height, constructor) ->
