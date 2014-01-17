@@ -49,13 +49,13 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			@offset.y = -@height * 0.5
 
 		collide: (type, x, y) ->
-			return null unless @scene
+			return null unless @space
 			prevX = @pos.x
 			prevY = @pos.y
 			@pos.x = x
 			@pos.y = y
 
-			result = @scene.entities.collide this, type
+			result = @space.entities.collide this, type
 
 			@pos.x = prevX
 			@pos.y = prevY
@@ -115,15 +115,15 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			@updateables.update()
 			
 		render: ->
-			return unless @graphic and @scene and @scene.camera
-			@graphic.render @renderTarget, @pos, @scene.camera
+			return unless @graphic and @space and @space.camera
+			@graphic.render @renderTarget, @pos, @space.camera
 
 		hasType: (type) ->
 			@type? and @type is type
 
-		removeFromScene: ->
-			if @scene?
-				@scene.remove this
+		remove: ->
+			if @space?
+				@space.remove this
 
 		@properties
 			left:

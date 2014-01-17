@@ -1,13 +1,13 @@
 define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 'jinn/particles',
-	"jinn/entities/lists"],
+	"jinn/entities/spaces"],
 	(debug, app, cameras, util, entities, particles,\
-	{SpatialEntityList}) ->
+	{EntitySpace}) ->
 
-		class Scene
+		ns = {}
+
+		class ns.Scene
 			constructor: ->
-				@camera		= new cameras.Camera
-				@entities	= new SpatialEntityList
-				@particles	= new particles.ParticleSystem this
+				@space = new EntitySpace
 
 				@windows		= []
 				@windowsToAdd		= []
@@ -17,18 +17,6 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 
 			end: ->
 				window.$el.remove() for window in @windows
-
-			add: (e) ->
-				return unless e?
-				e.scene = this
-				@entities.add e
-				e.added() if e.added?
-
-			remove: (e) ->
-				return unless e?
-				e.removed() if e.removed?
-				@entities.remove e
-				e.scene = null
 
 			addWindow: (window) ->
 				@windowsToAdd.push window
@@ -59,32 +47,12 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 
 
 				unless isBlocked
-					@entities.update()
-					@particles.update()
-					@camera.update()
+					@space.update()
 
 			render: ->
 				for window in @windows when window.render?
 					window.render()
 
-				onscreenEntities = @entities.inBounds @camera
-				renderables = onscreenEntities.concat @particles.particles
+				@space.render()
 
-				renderables.sort (a, b) -> b.layer - a.layer
-				renderable.render() for renderable in renderables
-
-				if debug.isEnabled 'hitboxes'
-					for entity in @entities.list
-						context = app.canvas.context
-						context.beginPath()
-						context.rect(
-							entity.pos.x + entity.offset.x - @camera.x,
-							entity.pos.y + entity.offset.y - @camera.y,
-							entity.width,
-							entity.height
-						)
-						context.strokeStyle = 'red'
-						context.stroke()
-		return {
-			Scene: Scene
-		}
+		return ns

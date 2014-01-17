@@ -1,5 +1,5 @@
-define [],
-	() ->
+define ["jinn/util"],
+	(util) ->
 		ns = {}
 
 		CELL_WIDTH = CELL_HEIGHT = 200
@@ -40,6 +40,9 @@ define [],
 			first: (type) ->
 				(return e) for e in @list when e.hasType type
 				return null
+
+			inBounds: (rect) ->
+				e for e in @list when util.aabbsIntersect e, rect
 
 		class BaseSpatialEntityList extends SimpleEntityList
 			constructor: ->

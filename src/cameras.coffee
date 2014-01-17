@@ -18,10 +18,10 @@ define ['jinn/util', 'jinn/app'], (util, app) ->
 				set: (y) -> @pos.y = y
 
 			width:
-				get: -> app.canvas.width
+				get: -> throw new Error "No camera width"
 
 			height:
-				get: -> app.canvas.height
+				get: -> throw new Error "No camera height"
 
 			left:
 				get: -> @x
@@ -34,6 +34,18 @@ define ['jinn/util', 'jinn/app'], (util, app) ->
 
 			bottom:
 				get: -> @top + @height
+
+	class ns.CanvasCamera extends ns.Camera
+		constructor: (@canvas) ->
+			super()
+
+		@properties
+			width:
+				get: -> @canvas.width
+
+			height:
+				get: -> @canvas.height
+
 
 	class ns.CameraWrapper extends ns.Camera
 		constructor: (@base) ->
