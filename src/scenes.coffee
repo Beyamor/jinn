@@ -1,10 +1,12 @@
-define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 'jinn/particles'],
-	(debug, app, cameras, util, entities, particles) ->
+define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 'jinn/particles',
+	"jinn/entities/lists"],
+	(debug, app, cameras, util, entities, particles,\
+	{EntityList}) ->
 
 		class Scene
 			constructor: ->
 				@camera		= new cameras.Camera
-				@entities	= new entities.EntityList
+				@entities	= new EntityList
 				@particles	= new particles.ParticleSystem this
 
 				@windows		= []
