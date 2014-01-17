@@ -4,20 +4,47 @@ define [],
 
 		CELL_WIDTH = CELL_HEIGHT = 200
 
-		class BaseSpatialEntityList
+		class SimpleEntityList
 			constructor: ->
 				@list		= []
 				@toAdd	 	= []
 				@toRemove	= []
-				@entityCells	= {}
+
+			remove: (e) ->
+				return unless e?
+				@toRemove.push e
 
 			add: (e) ->
 				return unless e?
 				@toAdd.push e
 
-			remove: (e) ->
-				return unless e?
-				@toRemove.push e
+			updateLists: ->
+				if @toAdd.length isnt 0
+					for entity in @toAdd
+						@list.push entity
+					@toAdd = []
+
+				if @toRemove.length isnt 0
+					for entity in @toRemove
+						index = @list.indexOf entity
+						if index != -1
+							@list.splice index, 1
+					@toRemove = []
+			update: ->
+				entity.update() for entity in @list
+				@updateLists()
+
+			render: ->
+				entity.render() for entity in @list
+
+			first: (type) ->
+				(return e) for e in @list when e.hasType type
+				return null
+
+		class BaseSpatialEntityList extends SimpleEntityList
+			constructor: ->
+				super()
+				@entityCells	= {}
 
 			cellBounds: (e) ->
 				return {
@@ -43,22 +70,6 @@ define [],
 					for y in [bounds.minCellY..bounds.maxCellY]
 						@entityCells[x][y].remove e
 
-			update: ->
-				if @toAdd.length isnt 0
-					for entity in @toAdd
-						@list.push entity
-					@toAdd = []
-
-				if @toRemove.length isnt 0
-					for entity in @toRemove
-						index = @list.indexOf entity
-						if index != -1
-							@list.splice index, 1
-					@toRemove = []
-
-			render: ->
-				entity.render() for entity in @list
-
 			inBounds: (rect) ->
 				bounds = @cellBounds rect
 
@@ -82,10 +93,6 @@ define [],
 					return []
 
 
-			first: (type) ->
-				(return e) for e in @list when e.hasType type
-				return null
-
 			rebuildCells: ->
 				@entityCells = {}
 				@addToCells(entity) for entity in @list
@@ -98,10 +105,6 @@ define [],
 			remove: (e) ->
 				@removeFromCells e
 				super e
-
-			update: ->
-				entity.update() for entity in @list
-				super()
 
 		class DynamicSpatialEntityList extends BaseSpatialEntityList
 			update: ->
@@ -126,8 +129,7 @@ define [],
 						entity.x = newX
 						entity.y = newY
 						@addToCells(entity)
-
-				super()
+				@updateLists()
 
 		class ns.SpatialEntityList
 			constructor: ->
