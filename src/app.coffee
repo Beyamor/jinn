@@ -20,7 +20,7 @@ define ['jinn/canvas', 'jinn/input', 'jinn/debug',
 
 					@scene.update() if @scene
 
-					@canvas.clear()
+					@canvas.clear() if @canvas?
 					@scene.render() if @scene
 
 				@previousTime = newTime
@@ -39,23 +39,21 @@ define ['jinn/canvas', 'jinn/input', 'jinn/debug',
 
 			launch: (opts) ->
 				@hasFocus	= true
-				@width		= opts.width
-				@height		= opts.height
 				@fps		= (opts.fps or 30)
 				@init		= opts.init
 
 				@container = $("##{opts.id}")
-					.width(@width)
-					.height(@height)
+					.css("display", "inline-block")
 					.focusin(=> @hasFocus = true)
 					.focusout(=> @hasFocus = false)
 
-				@canvas = new cnvs.Canvas {
-					width: @width
-					height: @height
-					backgroundColor: (opts.backgroundColor or 'white')
-				}
-				@container.append @canvas.$el
+				if opts.canvas?
+					@canvas = new cnvs.Canvas {
+						width: opts.canvas.width
+						height: opts.canvas.height
+						backgroundColor: (opts.backgroundColor or 'white')
+					}
+					@container.append @canvas.$el
 
 				@loadScreen = $('<div>')
 						.addClass('load-screen')

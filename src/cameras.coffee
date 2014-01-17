@@ -18,10 +18,10 @@ define ['jinn/util', 'jinn/app'], (util, app) ->
 				set: (y) -> @pos.y = y
 
 			width:
-				get: -> app.width
+				get: -> app.canvas.width
 
 			height:
-				get: -> app.height
+				get: -> app.canvas.height
 
 			left:
 				get: -> @x
@@ -62,8 +62,8 @@ define ['jinn/util', 'jinn/app'], (util, app) ->
 
 		update: ->
 			super()
-			@x = @ent.x - app.width / 2
-			@y = @ent.y - app.height / 2
+			@x = @ent.x - app.canvas.width / 2
+			@y = @ent.y - app.canvas.height / 2
 
 	class ns.BoundedCamera extends ns.CameraWrapper
 		constructor: (@bounds, base) ->
