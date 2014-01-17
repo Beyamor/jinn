@@ -7,7 +7,7 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 
 		class ns.Scene
 			constructor: ->
-				@space = new EntitySpace
+				@spaces = []
 
 				@windows		= []
 				@windowsToAdd		= []
@@ -47,12 +47,27 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 
 
 				unless isBlocked
-					@space.update()
+					space.update() for space in @spaces
 
 			render: ->
 				for window in @windows when window.render?
 					window.render()
 
-				@space.render()
+				space.render() for space in @spaces
+
+			@properties
+				space:
+					get: ->
+						unless @spaces?
+							@spaces = []
+						unless @spaces.length > 0
+							@spaces[0] = new EntitySpace
+						return @spaces[0]
+
+					set: (space) ->
+						unless @spaces?
+							@spaces = []
+						@spaces[0] = space
+
 
 		return ns
