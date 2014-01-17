@@ -112,7 +112,7 @@ define ['jinn/canvas', 'jinn/input', 'jinn/debug',
 					@assetsLoaded = true
 					@tryStarting()
 				queue.addEventListener 'fileload', (e) =>
-					debug.logType 'load', "loaded #{e.item.src}"
+					debug.logFlag 'load', "loaded #{e.item.src}"
 					@updateLoadStatus()
 					
 				for [id, src] in @assets
