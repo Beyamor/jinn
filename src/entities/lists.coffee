@@ -4,7 +4,7 @@ define [],
 
 		CELL_WIDTH = CELL_HEIGHT = 200
 
-		class BaseEntityList
+		class BaseSpatialEntityList
 			constructor: ->
 				@list		= []
 				@toAdd	 	= []
@@ -90,7 +90,7 @@ define [],
 				@entityCells = {}
 				@addToCells(entity) for entity in @list
 
-		class StaticEntityList extends BaseEntityList
+		class StaticSpatialEntityList extends BaseSpatialEntityList
 			add: (e) ->
 				@addToCells e
 				super e
@@ -103,7 +103,7 @@ define [],
 				entity.update() for entity in @list
 				super()
 
-		class DynamicEntityList extends BaseEntityList
+		class DynamicSpatialEntityList extends BaseSpatialEntityList
 			update: ->
 				@rebuildCells()
 				for entity in @list
@@ -129,10 +129,10 @@ define [],
 
 				super()
 
-		class ns.EntityList
+		class ns.SpatialEntityList
 			constructor: ->
-				@statics	= new StaticEntityList
-				@dynamics	= new DynamicEntityList
+				@statics	= new StaticSpatialEntityList
+				@dynamics	= new DynamicSpatialEntityList
 
 			add: (e) ->
 				return unless e

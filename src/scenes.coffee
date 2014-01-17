@@ -1,12 +1,12 @@
 define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 'jinn/particles',
 	"jinn/entities/lists"],
 	(debug, app, cameras, util, entities, particles,\
-	{EntityList}) ->
+	{SpatialEntityList}) ->
 
 		class Scene
 			constructor: ->
 				@camera		= new cameras.Camera
-				@entities	= new EntityList
+				@entities	= new SpatialEntityList
 				@particles	= new particles.ParticleSystem this
 
 				@windows		= []
