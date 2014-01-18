@@ -17,11 +17,10 @@ define ['jinn/util'], (util) ->
 		mixin	= definition.call null, arg
 		oldInit	= mixin.init
 
-		if mixin.defaults?
-			mixin.init = ->
-				for prop, val of mixin.defaults when not this[prop]?
-					this[prop] = val
-				oldInit() if oldInit?
+		mixin.init = ->
+			for prop, val of mixin when not prop isnt "init" and prop isnt "update"
+				this[prop] or= val
+			oldInit() if oldInit?
 
 		return mixin
 
