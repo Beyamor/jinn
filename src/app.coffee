@@ -38,19 +38,21 @@ define ['jinn/canvas', 'jinn/input', 'jinn/debug',
 				, 1000 / @fps
 
 			launch: (opts) ->
-				@hasFocus	= true
-				@fps		= (opts.fps or 30)
-				@init		= opts.init
+				{@width, @height}	= opts
+				@hasFocus		= true
+				@fps			= (opts.fps or 30)
+				@init			= opts.init
 
 				@container = $("##{opts.id}")
-					.css("display", "inline-block")
+					.width(opts.width)
+					.height(opts.height)
 					.focusin(=> @hasFocus = true)
 					.focusout(=> @hasFocus = false)
 
 				if opts.canvas?
 					@canvas = new cnvs.Canvas {
-						width: opts.canvas.width
-						height: opts.canvas.height
+						width: opts.canvas.width or @width
+						height: opts.canvas.height or @height
 						backgroundColor: (opts.backgroundColor or 'white')
 					}
 					@container.append @canvas.$el
