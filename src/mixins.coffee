@@ -3,21 +3,29 @@ define ['jinn/util'], (util) ->
 
 	mixins = {}
 
-	ns.define = (name, mixin) ->
+	ns.defineOne = (name, mixin) ->
 		throw new Error "Mixin #{name} already defined" if mixins[name]?
-
 		mixins[name] = mixin
 
-	ns.defineAll = (specs) ->
-		ns.define(name, mixin) for name, mixin of specs
+	ns.define = (specs) ->
+		ns.defineOne(name, mixin) for name, mixin of specs
 
-	ns.realize = (name, arg) ->
-		mixin = mixins[name]
-		throw new Error "Uknown mixin #{name}" unless mixin?
+	ns.realizeOne = (name, arg) ->
+		definition = mixins[name]
+		throw new Error "Uknown mixin #{name}" unless definition?
 
-		mixin.call null, arg
+		mixin	= definition.call null, arg
+		oldInit	= mixin.init
 
-	ns.realizeAll = (specs) ->
-		ns.realize(name, arg) for name, arg of specs
+		if mixin.defaults?
+			mixin.init = ->
+				for prop, val of mixin.defaults when not this[prop]?
+					this[prop] = val
+				oldInit() if oldInit?
+
+		return mixin
+
+	ns.realize = (specs) ->
+		ns.realizeOne(name, arg) for name, arg of specs
 
 	return ns

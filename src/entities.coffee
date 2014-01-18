@@ -36,11 +36,11 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			@collisionHandlers	= {}
 			@type			= args.type
 			@static			= args.static
-			@mixins			= if args.mixins? then mixins.realizeAll args.mixins else []
+			@mixins			= if args.mixins? then mixins.realize args.mixins else []
 
 			@center() if args.centered?
 
-			mixin.initialize.call(this) for mixin in @mixins when mixin.initialize?
+			mixin.init.call(this) for mixin in @mixins when mixin.init?
 
 			@updateables = new util.UpdateList
 
