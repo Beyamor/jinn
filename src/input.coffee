@@ -59,6 +59,8 @@ define ->
 		mouseY: 0
 		prevMouseX: 0
 		prevMouseY: 0
+		nextMouseX: 0
+		nextMouseY: 0
 
 		isDown: (key, state) ->
 			state or= @currentState
@@ -92,6 +94,7 @@ define ->
 			for k, v of @currentState
 				@prevState[k] = v
 
+
 			# then, update the current state
 			for [k, v] in @events
 				@currentState[k] = v
@@ -99,6 +102,11 @@ define ->
 			# and finally, clear the events
 			@events = []
 
+			# update mouse position
+			@prevMouseX	= @mouseX
+			@prevMouseY	= @mouseY
+			@mouseY		= @nextMouseY
+			@mouseX		= @nextMouseX
 
 		watch: ($el) ->
 			eventToMouseButton = (e) ->
@@ -116,10 +124,8 @@ define ->
 				@events.push [e.which, 'up']
 
 			.mousemove (e) =>
-				@prevMouseX	= @mouseX
-				@prevMouseY	= @mouseY
-				@mouseX		= e.pageX - $el.parent().offset().left
-				@mouseY		= e.pageY - $el.parent().offset().top
+				@nextMouseX	= e.pageX - $el.parent().offset().left
+				@nextMouseX	= e.pageY - $el.parent().offset().top
 
 			.mousedown (e) =>
 				@events.push [eventToMouseButton(e), 'down']
