@@ -20,7 +20,7 @@ define ['jinn/util'], (util) ->
 		mixin.init = ->
 			for prop, val of mixin when not prop isnt "init" and prop isnt "update"
 				this[prop] or= val
-			oldInit() if oldInit?
+			oldInit.call(this) if oldInit?
 
 		return mixin
 
