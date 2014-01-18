@@ -125,7 +125,7 @@ define ->
 
 			.mousemove (e) =>
 				@nextMouseX	= e.pageX - $el.parent().offset().left
-				@nextMouseX	= e.pageY - $el.parent().offset().top
+				@nextMouseY	= e.pageY - $el.parent().offset().top
 
 			.mousedown (e) =>
 				@events.push [eventToMouseButton(e), 'down']
