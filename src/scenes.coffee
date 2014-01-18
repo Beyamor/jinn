@@ -1,13 +1,14 @@
 define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 'jinn/particles',
-	"jinn/entities/spaces"],
+	"jinn/entities/spaces", "jquery"],
 	(debug, app, cameras, util, entities, particles,\
-	{EntitySpace}) ->
+	{EntitySpace}, $) ->
 
 		ns = {}
 
 		class ns.Scene
 			constructor: ->
-				@spaces = []
+				@spaces	= []
+				@els	= []
 
 				@windows		= []
 				@windowsToAdd		= []
@@ -17,6 +18,7 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 
 			end: ->
 				window.$el.remove() for window in @windows
+				$(el).remove() for el in @els if @els?
 
 			addWindow: (window) ->
 				@windowsToAdd.push window
@@ -58,8 +60,7 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 			@properties
 				space:
 					get: ->
-						unless @spaces?
-							@spaces = []
+						@spaces or= []
 						unless @spaces.length > 0
 							@spaces[0] = new EntitySpace
 						return @spaces[0]
@@ -69,5 +70,14 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 							@spaces = []
 						@spaces[0] = space
 
+				el:
+					get: ->
+						@els[0] if @els?
+
+					set: (el) ->
+						@els or= []
+						if @els.length > 0
+							@els[0].remove()
+						@els[0] = el
 
 		return ns
