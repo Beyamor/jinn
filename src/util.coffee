@@ -3,6 +3,14 @@ define ['jinn/app'], (app) ->
 		for prop, desc of definitions
 			Object.defineProperty this.prototype, prop, desc
 
+	Function::delegate = (specs) ->
+		for delegate, properties of specs
+			for property in properties
+				do (delegate, property) =>
+					Object.defineProperty @prototype, property,
+						get: -> this[delegate][property]
+						set: (value) -> this[delegate][property] = value
+
 	Array::remove = (val) ->
 		index = this.indexOf val
 		return unless index > -1

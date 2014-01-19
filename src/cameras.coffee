@@ -53,20 +53,8 @@ define ['jinn/util', 'jinn/app'], (util, app) ->
 		update: ->
 			@base.update()
 
-		@properties
-			x:
-				get: -> @base.x
-				set: (x) -> @base.x = x
-
-			y:
-				get: -> @base.y
-				set: (y) -> @base.y = y
-
-			width:
-				get: -> @base.width
-
-			height:
-				get: -> @base.height
+		@delegate
+			base:	["x", "y", "width", "height"]
 
 	class ns.EntityCamera extends ns.CameraWrapper
 		constructor: (@ent, base) ->
