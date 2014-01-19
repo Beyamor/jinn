@@ -19,7 +19,7 @@ define ["jinn/entities/lists", "jinn/app", "jinn/entities/renderers",
 				@camera.update() if @camera.update?
 
 			render: ->
-				@renderer.render entities, @camera
+				@renderer.render @entities, @camera
 
 			add: (e) ->
 				return unless e?
