@@ -7,9 +7,10 @@ define ["jinn/debug"],
 				throw new Error "Need a canvas (#{@canvas})" unless @canvas?
 
 			render: (entities, camera) ->
-				entities.sort (a, b) -> b.layer - a.layer
+				renderList = entities.inBounds camera
+				renderList.sort (a, b) -> b.layer - a.layer
 
-				for entity in entities
+				for entity in renderList
 					if entity.graphic?
 						entity.graphic.render @canvas, entity.pos, camera
 

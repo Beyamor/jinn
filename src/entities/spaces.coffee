@@ -16,10 +16,9 @@ define ["jinn/entities/lists", "jinn/app", "jinn/entities/renderers",
 
 			update: ->
 				@entities.update()
-				@camera.update()
+				@camera.update() if @camera.update?
 
 			render: ->
-				entities = @entities.inBounds @camera
 				@renderer.render entities, @camera
 
 			add: (e) ->
