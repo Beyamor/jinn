@@ -4,7 +4,7 @@ define ["jinn/util"],
 
 		CELL_WIDTH = CELL_HEIGHT = 200
 
-		class SimpleEntityList
+		class ns.SimpleEntityList
 			constructor: ->
 				@list		= []
 				@toAdd	 	= []
@@ -44,7 +44,7 @@ define ["jinn/util"],
 			inBounds: (rect) ->
 				e for e in @list when util.aabbsIntersect e, rect
 
-		class BaseSpatialEntityList extends SimpleEntityList
+		class BaseSpatialEntityList extends ns.SimpleEntityList
 			constructor: ->
 				super()
 				@entityCells	= {}
