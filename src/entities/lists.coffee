@@ -34,15 +34,15 @@ define ["jinn/util"],
 				entity.update() for entity in @list
 				@updateLists()
 
-			render: ->
-				entity.render() for entity in @list
-
 			first: (type) ->
 				(return e) for e in @list when e.hasType type
 				return null
 
 			inBounds: (rect) ->
 				e for e in @list when util.aabbsIntersect e, rect
+
+			each: (f) ->
+				f(e) for e in @list
 
 		class BaseSpatialEntityList extends ns.SimpleEntityList
 			constructor: ->
@@ -169,5 +169,9 @@ define ["jinn/util"],
 
 			first: (type) ->
 				@statics.first(type) or @dynamics.first(type)
+
+			each: (f) ->
+				@statics.each f
+				@dynamics.each f
 
 		return ns
