@@ -66,8 +66,7 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 						return @spaces[0]
 
 					set: (space) ->
-						unless @spaces?
-							@spaces = []
+						@spaces or= []
 						@spaces[0] = space
 
 				el:
