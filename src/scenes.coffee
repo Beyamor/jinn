@@ -14,6 +14,8 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 				@windowsToAdd		= []
 				@windowsToRemove	= []
 
+				@updateables = new util.UpdateList
+
 			begin: ->
 
 			end: ->
@@ -50,6 +52,8 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 
 				unless isBlocked
 					space.update() for space in @spaces
+
+				@updateables.update()
 
 			render: ->
 				for window in @windows when window.render?
