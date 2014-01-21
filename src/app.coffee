@@ -5,10 +5,22 @@ define ['jinn/canvas', 'jinn/input', 'jinn/debug',
 
 		return {
 			definitions: {}
+			onDefinitionCallbacks: {}
 
 			define: (definitions) ->
 				for k, v of definitions
 					@definitions[k] = v
+
+					callbacks = @onDefinitionCallbacks[k]
+					if callbacks?
+						callback() for callback in callbacks
+
+			whenDefined: (what, callback) ->
+				if what of @definitions
+					callback()
+				else
+					@onDefinitionCallbacks[what] or= []
+					@onDefinitionCallbacks[what].push callback
 
 			loop: ->
 				newTime = new Date
