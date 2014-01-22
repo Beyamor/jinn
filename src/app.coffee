@@ -49,6 +49,11 @@ define ['jinn/canvas', 'jinn/input', 'jinn/debug',
 					@loop()
 				, 1000 / @fps
 
+			onLaunchCallbacks: []
+
+			onLaunch: (callback) ->
+				@onLaunchCallbacks.push callback
+
 			launch: (opts) ->
 				{@width, @height}	= opts
 				@hasFocus		= true
@@ -87,6 +92,8 @@ define ['jinn/canvas', 'jinn/input', 'jinn/debug',
 						@_scene = newScene
 						if @_scene? and @_scene.begin?
 							@_scene.begin()
+
+				callback() for callback in @onLaunchCallbacks
 
 				@numberOfThingsToLoad = @numberOfThingsLoaded = 0
 
