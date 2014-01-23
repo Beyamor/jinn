@@ -19,6 +19,35 @@ define ['jinn/app'], (app) ->
 	Array::contains = (val) ->
 		this.indexOf(val) isnt -1
 
+	random =
+		inRange: (args...) ->
+			if args.length is 2
+				[min, max] = args
+				return min + Math.random() * (max - min)
+			else if args.length is 1
+				[max] = args
+				return util.random.inRange 0, max
+			else throw new Error "Bad arglength #{args.length}"
+
+		intInRange: (args...) ->
+			if args.length is 2
+				[min, max] = args
+				return Math.floor(util.random.inRange min, max)
+			else if args.length is 1
+				[max] = args
+				return util.random.intInRange 0, max
+			else throw new Error "Bad arglength #{args.length}"
+
+		any: (coll) -> coll[Math.floor(Math.random() * coll.length)]
+		choose: (options...) -> util.random.any options
+		chance: (probability) -> Math.random() * 100 < probability
+
+	Object.defineProperty random, "angle",
+		get: -> random.inRange 0, 2 * Math.PI
+
+	Object.defineProperty random, "coinClip",
+		get: -> random.change 50
+
 	util = {
 		sign: (x) -> (x > 0) - (x < 0)
 
@@ -42,30 +71,8 @@ define ['jinn/app'], (app) ->
 			dy = b.y - a.y
 			return Math.sqrt dx*dx + dy*dy
 
-		random:
-			inRange: (args...) ->
-				if args.length is 2
-					[min, max] = args
-					return min + Math.random() * (max - min)
-				else if args.length is 1
-					[max] = args
-					return util.random.inRange 0, max
-				else throw new Error "Bad arglength #{args.length}"
-
-			intInRange: (args...) ->
-				if args.length is 2
-					[min, max] = args
-					return Math.floor(util.random.inRange min, max)
-				else if args.length is 1
-					[max] = args
-					return util.random.intInRange 0, max
-				else throw new Error "Bad arglength #{args.length}"
-
-			angle: -> util.random.inRange 0, 2 * Math.PI
-			any: (coll) -> coll[Math.floor(Math.random() * coll.length)]
-			choose: (options...) -> util.random.any options
-			coinFlip: -> util.random.chance 50
-			chance: (probability) -> Math.random() * 100 < probability
+		random: random
+			
 
 		isFunction: (x) ->
 			x and typeof(x) is "function"
