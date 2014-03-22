@@ -33,7 +33,7 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			@width			= args.width or 0
 			@height			= args.height or args.width or 0
 			@offset			= {x: 0, y: 0}
-			@collisionHandlers	= {}
+			@collisionHandlers	= args.collisionHandlers or {}
 			@type			= args.type
 			@static			= args.static
 			@mixins			= if args.mixins? then mixins.realize args.mixins else []
