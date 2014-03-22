@@ -11,7 +11,7 @@ define ['jinn/app', 'jinn/canvas', 'underscore',
 
 		class ns.StandardGraphic
 			constructor: (args) ->
-				@canvas		= new Canvas width: args.width, height: args.height
+				@canvas		= new Canvas width: args.width, height: (args.height or args.width)
 				@origin		= x: 0, y: 0
 				@rotation	= 0
 				@dirty		= true
