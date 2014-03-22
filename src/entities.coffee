@@ -73,7 +73,10 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 					collision = @collide type, @pos.x + xInc, @pos.y
 					if collision
 						stop = handler.call(this, collision)
-					break if stop
+
+					if stop
+						@vel.x = 0
+						break
 
 				break if stop
 
@@ -93,7 +96,10 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 					collision = @collide type, @pos.x, @pos.y + yInc
 					if collision
 						stop = handler.call(this, collision)
-					break if stop
+
+					if stop
+						@vel.y = 0
+						break
 
 				break if stop
 
