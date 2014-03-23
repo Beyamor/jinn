@@ -19,6 +19,9 @@ define ['jinn/app'], (app) ->
 	Array::contains = (val) ->
 		this.indexOf(val) isnt -1
 
+	String::reverse = ->
+		@split("").reverse().join("")
+
 	random =
 		inRange: (args...) ->
 			if args.length is 2
@@ -242,7 +245,7 @@ define ['jinn/app'], (app) ->
 		newInstance = new obj.constructor()
 
 		for key of obj
-			newInstance[key] = copy obj[key]
+			newInstance[key] = util.copy obj[key]
 
 		return newInstance
 
