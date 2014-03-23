@@ -57,7 +57,7 @@ define ['jinn/app'], (app) ->
 	Object.defineProperty random, "angle",
 		get: -> random.inRange 0, 2 * Math.PI
 
-	Object.defineProperty random, "coinClip",
+	Object.defineProperty random, "coinFlip",
 		get: -> random.chance 50
 
 	util = {
