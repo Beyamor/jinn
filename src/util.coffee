@@ -19,6 +19,12 @@ define ['jinn/app'], (app) ->
 	Array::contains = (val) ->
 		this.indexOf(val) isnt -1
 
+	Array.repeat = (number, val) ->
+		result = new Array number
+		for i in [0...number]
+			result[i] = val
+		return result
+
 	String::reverse = ->
 		@split("").reverse().join("")
 
@@ -41,7 +47,10 @@ define ['jinn/app'], (app) ->
 				return util.random.intInRange 0, max
 			else throw new Error "Bad arglength #{args.length}"
 
-		any: (coll) -> coll[Math.floor(Math.random() * coll.length)]
+		any: (coll) ->
+			throw new Error "Can't select any from #{coll.length}" unless coll.length> 0
+			coll[Math.floor(Math.random() * coll.length)]
+
 		choose: (options...) -> util.random.any options
 		chance: (probability) -> Math.random() * 100 < probability
 
