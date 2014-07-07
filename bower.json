@@ -1,0 +1,26 @@
+{
+  "name": "jinn",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Beyamor/jinn",
+  "authors": [
+    "beyamor <beyamor@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "main": "dist/app.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+	  "jquery":	"latest",
+	  "requirejs":	"latest",
+	  "underscore":	"latest",
+	  "backbone":	"latest",
+	  "PreloadJS":	"latest",
+	  "handlebars":	"latest"
+  }
+}
