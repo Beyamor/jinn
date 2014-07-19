@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{project_name}}</title>
+		<script>
+			var require = {
+				urlArgs: 'bust=' + (new Date()).getTime(),
+				baseUrl: 'js/',
+				shim: {
+					"underscore": {
+						exports: "_"
+					},
+					"backbone": {
+						deps: ["underscore", "jquery"],
+						exports: "Backbone"
+					},
+					"preload": {
+						deps: ["jquery"],
+						exports: "createjs"
+					},
+					"handlebars": {
+						exports: "Handlebars"
+					}
+				},
+				paths: {
+					"templates":	"/templates",
+					"jquery":	"/js/lib/jquery/dist/jquery.min",
+					"underscore":	"/js/lib/underscore/underscore",
+					"backbone":	"/js/lib/backbone/backbone",
+					"handlebars":	"/js/lib/handlebars/handlebars.min",
+					"preload":	"/js/lib/PreloadJS/lib/preloadjs-0.4.1.min",
+					"jinn":		"/js/lib/jinn/dist"
+				}
+			};
+		</script>
+		<script src="js/lib/requirejs/require.js" data-main="{{project_name}}/main.js"></script>
+	</head>
+	<body>
+		<div id="game"></div>
+	</body>
+</html>
