@@ -1,4 +1,3 @@
-#!/usr/bin/env coffee
 fs		= require "fs"
 path		= require "path"
 mustache	= require "mustache"
@@ -19,26 +18,28 @@ exec = (command, args...) ->
 	process = subprocess.spawn command, args,
 			stdio: "inherit"
 
-run = exports.run = (projectName) ->
+writeJSON = (fileName, data) ->
+	text = JSON.stringify data, null, 4
+	fs.writeFile fileName, text, thenLog "Wrote #{fileName}"
+
+renderTemplate = (destName, templateName, data) ->
+	fs.readFile path.join(__dirname, templateName), (_, template) ->
+		text = mustache.render "#{template}", data
+		fs.writeFile destName, text
+
+run = exports.run = ({projectName, namespace}) ->
+	namespace or= projectName
+
 	unless projectName?
-		console.log "Yo, you need a file name."
+		console.log "Need a name"
 		process.exit 1
 
 	fs.mkdirSync projectName
 	process.chdir projectName
 
 	fs.mkdir "src"
-	fs.mkdir path.join("src", projectName)
+	fs.mkdir path.join("src", namespace)
 	fs.mkdir "templates"
-
-	writeJSON = (fileName, data) ->
-		text = JSON.stringify data, null, 4
-		fs.writeFile fileName, text, thenLog "Wrote #{fileName}"
-
-	renderTemplate = (destName, templateName, data) ->
-		fs.readFile path.join(__dirname, templateName), (_, template) ->
-			text = mustache.render "#{template}", data
-			fs.writeFile destName, text
 
 	writeJSON "bower.json",
 		name: projectName,
@@ -54,14 +55,10 @@ run = exports.run = (projectName) ->
 	exec "bower", "install"
 
 	renderTemplate "index.html", "new-project-index.html",
-		project_name: projectName
+		namespace: namespace
 
-	renderTemplate path.join("src", projectName, "main.coffee"), "new-project-main.coffee", {}
+	renderTemplate path.join("src", namespace, "main.coffee"), "new-project-main.coffee", {}
 
 	ignoredFiles = ["/js", ".sw[op]"]
 	fs.writeFile ".gitignore", ignoredFiles.join(EOL), thenLog "Wrote .gitignore"
 	exec "git", "init"
-
-if require.main is module
-	[_, _, projectName] = argv._
-	run projectName
