@@ -5,13 +5,21 @@ mustache	= require "mustache"
 subprocess	= require "child_process"
 {EOL}		= require "os"
 
-log = (status) ->
-	console.log status + "..."
+log = console.log
+
+thenLog = (message) ->
+	(err) ->
+		if err?
+			console.log "Whoa: #{err}"
+		else
+			log message
 
 exec = (command, args...) ->
-	process = subprocess.spawn command, args, stdio: "inherit"
+	process = subprocess.spawn command, args,
+			stdio: "inherit"
 
 [_, _, projectName] = process.argv
+
 
 unless projectName?
 	console.log "Yo, you need a file name."
@@ -25,12 +33,10 @@ fs.mkdir path.join("src", projectName)
 fs.mkdir "templates"
 
 writeJSON = (fileName, data) ->
-	log "writing " + fileName
 	text = JSON.stringify data, null, 4
-	fs.writeFile fileName, text
+	fs.writeFile fileName, text, thenLog "Wrote #{fileName}"
 
 renderTemplate = (destName, templateName, data) ->
-	log "writing " + destName
 	fs.readFile path.join(__dirname, templateName), (_, template) ->
 		text = mustache.render "#{template}", data
 		fs.writeFile destName, text
@@ -46,7 +52,6 @@ writeJSON ".bowerrc",
 	scripts:
 		postinstall: "coffee -c -o js/lib/jinn/dist js/lib/jinn/src"
 
-log "installing"
 exec "bower", "install"
 
 renderTemplate "index.html", "new-project-index.html",
@@ -54,7 +59,6 @@ renderTemplate "index.html", "new-project-index.html",
 
 renderTemplate path.join("src", projectName, "main.coffee"), "new-project-main.coffee", {}
 
-log "setting up git"
 ignoredFiles = ["/js", ".sw[op]"]
-fs.writeFile ".gitignore", ignoredFiles.join EOL
+fs.writeFile ".gitignore", ignoredFiles.join(EOL), thenLog "Wrote .gitignore"
 exec "git", "init"
