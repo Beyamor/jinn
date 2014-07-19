@@ -1,0 +1,12 @@
+$background-color: #F2EAD8;
+
+@mixin window {
+	background-color: $background-color;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+#definitions-debug-tweaker {
+	@include window;
+	width: 500px;
+}

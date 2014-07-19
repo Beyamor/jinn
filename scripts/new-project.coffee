@@ -23,9 +23,19 @@ writeJSON = (fileName, data) ->
 	fs.writeFile fileName, text, thenLog "Wrote #{fileName}"
 
 renderTemplate = (destName, templateName, data) ->
-	fs.readFile path.join(__dirname, templateName), (_, template) ->
-		text = mustache.render "#{template}", data
-		fs.writeFile destName, text
+	fs.readFile path.join(__dirname, templateName), (err, template) ->
+		if err?
+			log err
+		else
+			text = mustache.render "#{template}", data
+			fs.writeFile destName, text, thenLog "Wrote #{destName}"
+
+copyFile = (destName, sourceName) ->
+	fs.readFile path.join(__dirname, sourceName), (err, contents) ->
+		if err?
+			log err
+		else
+			fs.writeFile destName, contents, thenLog "Wrote #{destName}"
 
 run = exports.run = ({projectName, namespace}) ->
 	namespace or= projectName
@@ -40,6 +50,7 @@ run = exports.run = ({projectName, namespace}) ->
 	fs.mkdir "src"
 	fs.mkdir path.join("src", namespace)
 	fs.mkdir "templates"
+	fs.mkdir "scss"
 
 	writeJSON "bower.json",
 		name: projectName,
@@ -57,7 +68,9 @@ run = exports.run = ({projectName, namespace}) ->
 	renderTemplate "index.html", "new-project-index.html",
 		namespace: namespace
 
-	renderTemplate path.join("src", namespace, "main.coffee"), "new-project-main.coffee", {}
+	copyFile path.join("src", namespace, "main.coffee"), "new-project-main.coffee"
+	copyFile path.join("scss", "core.scss"), "new-project-core.scss"
+	copyFile path.join("scss", "debug.scss"), "new-project-debug.scss"
 
 	ignoredFiles = ["/js", ".sw[op]"]
 	fs.writeFile ".gitignore", ignoredFiles.join(EOL), thenLog "Wrote .gitignore"
