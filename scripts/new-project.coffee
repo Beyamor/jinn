@@ -73,6 +73,6 @@ run = exports.run = ({projectName, namespace}) ->
 	copyFile path.join("scss", "core.scss"), "new-project-core.scss"
 	copyFile path.join("scss", "debug.scss"), "new-project-debug.scss"
 
-	ignoredFiles = ["/js", ".sw[op]", "/css"]
+	ignoredFiles = ["/js", "*.sw[op]", "/css", "/.sass-cache"]
 	fs.writeFile ".gitignore", ignoredFiles.join(EOL), thenLog "Wrote .gitignore"
 	exec "git", "init"
