@@ -1,5 +1,5 @@
-define ["jinn/debug"],
-	(debug) ->
+define ["jinn/app", "jinn/debug"],
+	(app, debug) ->
 		ns = {}
 
 		class ns.CanvasRenderer
