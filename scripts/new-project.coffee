@@ -66,6 +66,7 @@ run = exports.run = ({projectName, namespace}) ->
 	exec "bower", "install"
 
 	renderTemplate "index.html", "new-project-index.html",
+		projectName: projectName
 		namespace: namespace
 
 	copyFile path.join("src", namespace, "main.coffee"), "new-project-main.coffee"
