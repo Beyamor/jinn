@@ -1,5 +1,11 @@
-define ["jinn/app"],
-	(app) ->
+define ["jinn/app", "jinn/debug"],
+	(app, debug) ->
+		debug.configure
+			enabled: true
+			flags:
+				fps: true
+				hitboxes: true
+
 		app.assets = []
 
 		app.templates = []
