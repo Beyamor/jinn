@@ -16,6 +16,8 @@ define ['jinn/debug', 'jinn/app', 'jinn/cameras', 'jinn/util', 'jinn/entities', 
 
 				@updateables = new util.UpdateList
 
+				@camera = new cameras.Camera
+
 			begin: ->
 
 			end: ->
