@@ -70,7 +70,7 @@ define ['jinn/canvas', 'jinn/input', 'jinn/debug',
 					@canvas = new cnvs.Canvas {
 						width: opts.canvas.width or @width
 						height: opts.canvas.height or @height
-						backgroundColor: (opts.backgroundColor or 'white')
+						backgroundColor: (opts.canvas.backgroundColor or 'white')
 					}
 					@container.append @canvas.$el
 
