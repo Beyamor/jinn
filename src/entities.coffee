@@ -164,6 +164,12 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 				get: -> @_width
 				set: (width) ->
 					@_width = width
-					@height = width unless @height?
+					@_height = width unless @heightSet?
+
+			height:
+				get: -> @_height
+				set: (height) ->
+					@_height	= height
+					@heightSet	= true
 
 	return ns
