@@ -30,8 +30,6 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			@graphic		= graphic
 			@vel			= new Velocity 0, 0
 			@layer			= 0
-			@width			= 0
-			@height			= 0
 			@offset			= {x: 0, y: 0}
 			@collisionHandlers	= {}
 			@type			= null
