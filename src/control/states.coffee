@@ -3,7 +3,7 @@ define [],
 		ns = {}
 
 		class ns.StateMachine
-			constructor: ({initial, states}) ->
+			constructor: (@self, {initial, states}) ->
 				@states = {}
 
 				for name, state of states
@@ -21,13 +21,13 @@ define [],
 			update: ->
 				if @nextState?
 					if @state?
-						@state.end() if @state.end?
+						@state.end.call(@self) if @state.end?
 
 					@state = @nextState
 					
-					@state.begin() if @state.begin?
+					@state.begin.call(@self) if @state.begin?
 					@nextState = null
 
-				@state.update()
+				@state.update.call(@self)
 
 		return ns
