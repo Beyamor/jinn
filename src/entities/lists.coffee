@@ -1,5 +1,5 @@
-define ["jinn/util"],
-	(util) ->
+define ["jinn/util", "underscore"],
+	(util, _) ->
 		ns = {}
 
 		CELL_WIDTH = CELL_HEIGHT = 200
@@ -157,10 +157,13 @@ define ["jinn/util"],
 			nearPoint: (point) ->
 				@statics.nearPoint(point).concat @dynamics.nearPoint(point)
 
-			collide: (e1, type) ->
-				for e2 in @inBounds(e1) when (e2 isnt e1) and e2.hasType type
-					return e2 if util.aabbsIntersect e1, e2
-				return null
+			collide: (e1, e2OrType) ->
+				if _.isString e2OrType
+					for e2 in @inBounds(e1) when (e2 isnt e1) and e2.hasType type
+						return e2 if util.aabbsIntersect e1, e2
+					return null
+				else
+					return util.aabbsIntersect e1, e2OrType
 
 			collidePoint: (point, type) ->
 				for e in @nearPoint(point) when e.hasType type
