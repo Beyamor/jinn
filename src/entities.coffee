@@ -111,7 +111,6 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 					collision = @collide type, @pos.x, @pos.y
 					handler(collision) if collision
 
-			mixin.update.call(this) for mixin in @mixins when mixin.update?
 			@updateables.update()
 			
 		render: ->
