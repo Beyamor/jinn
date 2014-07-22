@@ -25,24 +25,18 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 
 
 	class ns.Entity
-		constructor: (args) ->
-			@pos			= {x: args.x, y: args.y}
-			@graphic		= args.graphic
+		constructor: (x, y, graphic) ->
+			@pos			= {x: x, y: y}
+			@graphic		= graphic
 			@vel			= new Velocity 0, 0
-			@layer			= args.layer or 0
-			@width			= args.width or 0
-			@height			= args.height or args.width or 0
+			@layer			= 0
+			@width			= 0
+			@height			= 0
 			@offset			= {x: 0, y: 0}
-			@collisionHandlers	= args.collisionHandlers or {}
-			@type			= args.type
-			@static			= args.static
-			@mixins			= if args.mixins? then mixins.realize args.mixins else []
-
-			@center() if args.centered?
-
-			mixin.init.call(this) for mixin in @mixins when mixin.init?
-
-			@updateables = new util.UpdateList
+			@collisionHandlers	= {}
+			@type			= null
+			@static			= false
+			@updateables		= new util.UpdateList
 
 		center: ->
 			@offset.x = -@width * 0.5
@@ -166,5 +160,11 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 
 			renderTarget:
 				get: -> app.canvas
+
+			width:
+				get: -> @_width
+				set: (width) ->
+					@_width = width
+					@height = width unless @height?
 
 	return ns
