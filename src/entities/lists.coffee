@@ -159,7 +159,7 @@ define ["jinn/util", "underscore"],
 
 			collide: (e1, e2OrType) ->
 				if _.isString e2OrType
-					for e2 in @inBounds(e1) when (e2 isnt e1) and e2.hasType type
+					for e2 in @inBounds(e1) when (e2 isnt e1) and e2.hasType e2OrType
 						return e2 if util.aabbsIntersect e1, e2
 					return null
 				else
