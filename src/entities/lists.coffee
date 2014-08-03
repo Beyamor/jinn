@@ -154,6 +154,21 @@ define ["jinn/util", "underscore"],
 			inBounds: (rect) ->
 				@statics.inBounds(rect).concat @dynamics.inBounds(rect)
 
+			inRadius: (point, radius) ->
+				radiusSquared = radius * radius
+				bounds =
+					left: point.x - radius
+					top: point.y - radius
+					right: point.x + radius
+					bottom: point.y + radius
+				esInBounds = @inBounds bounds
+				esInRadius = []
+				for e in esInBounds
+					dx = e.x - point.x
+					dy = e.y - point.y
+					esInRadius.push e if dx*dx + dy*dy <= radiusSquared
+				return esInRadius
+
 			nearPoint: (point) ->
 				@statics.nearPoint(point).concat @dynamics.nearPoint(point)
 
