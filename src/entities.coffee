@@ -55,14 +55,16 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 			return result
 
 		move: ->
-			xSteps	= Math.floor(Math.abs(@vel.x * app.elapsed))
-			xInc 	= util.sign(@vel.x)
+			xSteps	= Math.abs(@vel.x * app.elapsed)
+			xDir 	= util.sign @vel.x
 
 			stop = false
 			while xSteps > 0
+				inc = xDir * Math.min xSteps, 1
+
 				for type, handler of @collisionHandlers
 					handler = handler.x if handler.x?
-					collision = @collide type, @pos.x + xInc, @pos.y
+					collision = @collide type, @pos.x + inc, @pos.y
 					if collision
 						stop = handler.call(this, collision)
 
@@ -75,17 +77,19 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 				if @shouldStopMovingHorizontally? and @shouldStopMovingHorizontally()
 					break
 
-				@pos.x += xInc
+				@pos.x += inc
 				xSteps -= 1
 
-			ySteps	= Math.floor(Math.abs(@vel.y * app.elapsed))
-			yInc 	= util.sign(@vel.y)
+			ySteps	= Math.abs(@vel.y * app.elapsed)
+			yDir 	= util.sign @vel.y
 
 			stop = false
 			while ySteps > 0
+				inc = yDir * Math.min ySteps, 1
+
 				for type, handler of @collisionHandlers
 					handler = handler.y if handler.y?
-					collision = @collide type, @pos.x, @pos.y + yInc
+					collision = @collide type, @pos.x, @pos.y + inc
 					if collision
 						stop = handler.call(this, collision)
 
@@ -98,7 +102,7 @@ define ['jinn/app', 'jinn/util', 'jinn/mixins'], (app, util, mixins) ->
 				if @shouldStopMovingVertically? and @shouldStopMovingVertically()
 					break
 
-				@pos.y += yInc
+				@pos.y += inc
 				ySteps -= 1
 
 		update: ->
