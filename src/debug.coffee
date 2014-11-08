@@ -8,7 +8,7 @@ define ['jquery'],
 			return unless @flags and @flags[flag]
 			@log.apply this, args
 
-		config: (opts) ->
+		configure: (opts) ->
 			for k, v of opts
 				@[k] = v
 				
