@@ -25,6 +25,9 @@ define ['jinn/app'], (app) ->
 			result[i] = val
 		return result
 
+	Array::insert = (index, item) ->
+		@splice index, 0, item
+
 	String::reverse = ->
 		@split("").reverse().join("")
 
