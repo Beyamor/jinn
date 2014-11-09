@@ -44,6 +44,13 @@ define ['jquery'],
 
 				@context.putImageData @pixel, x, y
 
+			drawLine: (fromX, fromY, toX, toY, color) ->
+				@context.beginPath()
+				@context.strokeStyle = color
+				@context.moveTo fromX, fromY
+				@context.lineTo toX, toY
+				@context.stroke()
+
 		return {
 			Canvas: Canvas
 		}
